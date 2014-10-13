@@ -21,6 +21,8 @@
             nestedParentLinks: true,
             showChildren: false,
             init: function () {},
+            beforeOpen: function(){},
+            beforeClose: function(){},
             open: function () {},
             close: function () {}
         },
@@ -292,6 +294,9 @@
 
         if (el.hasClass(prefix+'_hidden')) {
             el.removeClass(prefix+'_hidden');
+            if (!init) {
+                settings.beforeOpen(trigger);
+            }
             el.slideDown(duration, settings.easingOpen, function(){
 
                 $(trigger).removeClass(prefix+'_animating');
@@ -307,6 +312,9 @@
             $this._setVisAttr(el, false);
         } else {
             el.addClass(prefix+'_hidden');
+            if (!init) {
+                settings.beforeClose(trigger);
+            }
             el.slideUp(duration, this.settings.easingClose, function() {
                 el.attr('aria-hidden','true');
                 items.attr('tabindex', '-1');
